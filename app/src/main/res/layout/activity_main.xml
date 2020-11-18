@@ -29,7 +29,15 @@
         app:contentPadding="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintTop_toBottomOf="@+id/textView" >
+
+        <TextView
+            android:id="@+id/question_textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Placeholder text. this is where the questions will be"
+            android:textSize="18sp" />
+    </androidx.cardview.widget.CardView>
 
     <Button
         android:id="@+id/true_button"
@@ -78,7 +86,7 @@
         app:srcCompat="@android:drawable/ic_media_next" />
 
     <TextView
-        android:id="@+id/counter_text"
+        android:id="@+id/counter_textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
