@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ooteedemo.trivia.data.AnswerListAsyncResponse;
 import com.ooteedemo.trivia.data.QuestionBank;
@@ -48,6 +49,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void processFinished(ArrayList<Question> questionArrayList) {
                 questionTextView.setText(questionArrayList.get(currentQuestionIndex).getAnswer());
+                questionCounterTextView.setText(currentQuestionIndex+"/"+questionArrayList.size());
                 Log.d("MYMAIN", "onCreate: "+questionArrayList);
             }
         });
@@ -68,15 +70,30 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 updateQuestion();
                 break;
             case R.id.true_button:
+                checkAnswer(true);
                 break;
             case R.id.false_button:
+                checkAnswer(false);
                 break;
         }
 
     }
 
+    private void checkAnswer(boolean userAnswer) {
+        boolean answerIsTrue = questionList.get(currentQuestionIndex).isAnswerTrue();
+        int toastMessageId = 0;
+        if (userAnswer==answerIsTrue) {
+            toastMessageId = R.string.correct_answer;
+        } else {
+            toastMessageId = R.string.wrong_answer;
+        }
+
+        Toast.makeText(MainActivity.this,toastMessageId,Toast.LENGTH_SHORT).show();
+    }
+
     private void updateQuestion() {
         String question = questionList.get(currentQuestionIndex).getAnswer();
         questionTextView.setText(question);
+        questionCounterTextView.setText(currentQuestionIndex+"/"+questionList.size());
     }
 }
