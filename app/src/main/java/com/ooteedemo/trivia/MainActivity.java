@@ -25,6 +25,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private TextView questionTextView;
     private TextView questionCounterTextView;
+    private TextView scoreTextView;
     private Button trueButton;
     private Button falseButton;
     private ImageButton prevButton;
@@ -32,6 +33,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private int currentQuestionIndex=0;
     private List<Question> questionList;
+
+    Score score = new Score();
+    private int scoreCounter = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +48,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         falseButton = findViewById(R.id.false_button);
         questionCounterTextView = findViewById(R.id.counter_textView);
         questionTextView = findViewById(R.id.question_textView);
+        scoreTextView = findViewById(R.id.score_textView);
 
         prevButton.setOnClickListener(this);
         nextButton.setOnClickListener(this);
@@ -92,13 +97,33 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int toastMessageId = 0;
         if (userAnswer==answerIsTrue) {
             fadeView();
+            addPoints();
             toastMessageId = R.string.correct_answer;
         } else {
             shakeAnimation();
+            deductPoints();
             toastMessageId = R.string.wrong_answer;
         }
 
         Toast.makeText(MainActivity.this,toastMessageId,Toast.LENGTH_SHORT).show();
+    }
+
+    private void deductPoints() {
+        if (scoreCounter>0) {
+            scoreCounter -= 100;
+        } else {
+            scoreCounter = 0;
+        }
+        score.setScore(scoreCounter);
+        scoreTextView.setText(String.valueOf(score.getScore()));
+        Log.d("MYSCORE", "deductPoints: "+score.getScore());
+    }
+
+    private void addPoints() {
+        scoreCounter += 100;
+        score.setScore(scoreCounter);
+        scoreTextView.setText(String.valueOf(score.getScore()));
+        Log.d("MYSCORE", "addPoints: "+score.getScore());
     }
 
     private void updateQuestion() {
