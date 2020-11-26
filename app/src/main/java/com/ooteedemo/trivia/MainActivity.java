@@ -19,6 +19,7 @@ import com.ooteedemo.trivia.data.AnswerListAsyncResponse;
 import com.ooteedemo.trivia.data.QuestionBank;
 import com.ooteedemo.trivia.model.Question;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,6 +55,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         nextButton.setOnClickListener(this);
         trueButton.setOnClickListener(this);
         falseButton.setOnClickListener(this);
+
+        scoreTextView.setText(MessageFormat.format("Current Score: {0}", String.valueOf(score.getScore())));
 
 
             questionList =  new QuestionBank().getQuestions(new AnswerListAsyncResponse() {
@@ -115,14 +118,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             scoreCounter = 0;
         }
         score.setScore(scoreCounter);
-        scoreTextView.setText(String.valueOf(score.getScore()));
+        scoreTextView.setText(MessageFormat.format("Current Score: {0}", String.valueOf(score.getScore())));
         Log.d("MYSCORE", "deductPoints: "+score.getScore());
     }
 
     private void addPoints() {
         scoreCounter += 100;
         score.setScore(scoreCounter);
-        scoreTextView.setText(String.valueOf(score.getScore()));
+        scoreTextView.setText(MessageFormat.format("Current Score: {0}", String.valueOf(score.getScore())));
         Log.d("MYSCORE", "addPoints: "+score.getScore());
     }
 
