@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.ooteedemo.trivia.data.AnswerListAsyncResponse;
 import com.ooteedemo.trivia.data.QuestionBank;
 import com.ooteedemo.trivia.model.Question;
+import com.ooteedemo.trivia.util.Preferences;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -27,6 +28,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private TextView questionTextView;
     private TextView questionCounterTextView;
     private TextView scoreTextView;
+    private TextView highScoreTextView;
     private Button trueButton;
     private Button falseButton;
     private ImageButton prevButton;
@@ -37,11 +39,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     Score score = new Score();
     private int scoreCounter = 0;
+    private Preferences prefs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        prefs = new Preferences(MainActivity.this);
+
+        Log.d("MYSCORE", "onCreate: "+prefs.getHighScore());
 
         prevButton = findViewById(R.id.prev_button);
         nextButton = findViewById(R.id.next_button);
@@ -50,6 +57,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         questionCounterTextView = findViewById(R.id.counter_textView);
         questionTextView = findViewById(R.id.question_textView);
         scoreTextView = findViewById(R.id.score_textView);
+        highScoreTextView = findViewById(R.id.highscore_textView);
 
         prevButton.setOnClickListener(this);
         nextButton.setOnClickListener(this);
@@ -57,6 +65,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         falseButton.setOnClickListener(this);
 
         scoreTextView.setText(MessageFormat.format("Current Score: {0}", String.valueOf(score.getScore())));
+        highScoreTextView.setText(MessageFormat.format("HighScore: {0}",prefs.getHighScore()));
 
 
             questionList =  new QuestionBank().getQuestions(new AnswerListAsyncResponse() {
@@ -184,5 +193,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             }
         });
+    }
+
+    @Override
+    protected void onPause() {
+        prefs.saveHighScore(score.getScore());
+        super.onPause();
     }
 }
