@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         prefs = new Preferences(MainActivity.this);
 
-        Log.d("MYSCORE", "onCreate: "+prefs.getHighScore());
+//        Log.d("MYSCORE", "onCreate: "+prefs.getHighScore());
 
         prevButton = findViewById(R.id.prev_button);
         nextButton = findViewById(R.id.next_button);
@@ -73,7 +73,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void processFinished(ArrayList<Question> questionArrayList) {
                 questionTextView.setText(questionArrayList.get(currentQuestionIndex).getAnswer());
                 questionCounterTextView.setText(currentQuestionIndex+"/"+questionArrayList.size());
-                Log.d("MYMAIN", "onCreate: "+questionArrayList);
             }
         });
     }
@@ -128,14 +127,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         score.setScore(scoreCounter);
         scoreTextView.setText(MessageFormat.format("Current Score: {0}", String.valueOf(score.getScore())));
-        Log.d("MYSCORE", "deductPoints: "+score.getScore());
     }
 
     private void addPoints() {
         scoreCounter += 100;
         score.setScore(scoreCounter);
         scoreTextView.setText(MessageFormat.format("Current Score: {0}", String.valueOf(score.getScore())));
-        Log.d("MYSCORE", "addPoints: "+score.getScore());
     }
 
     private void updateQuestion() {
